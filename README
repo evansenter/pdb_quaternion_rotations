@@ -1,0 +1,444 @@
+Responses to Homework 2, CS697
+
+1a)
+  Transmembrane protease serine 3
+  
+1b)
+  Fasta file located at:             fasta/Q8K1T0.fasta
+  SwissModel results PDF located at: other/SwissModel Homology Q8K1T0.pdf
+  PDB code of template:              1ekbB
+  
+1c)
+  Screenshot of structures in Chimera located at: other/1ekbB to Q8K1T0 Alignment in Chimera.png
+  Sequence alignment AFasta locate at:            fasta/1ekbB to Q8K1T0 Alignment.afasta
+  
+1d)
+  Evaluating superpositions across all 231 fully populated columns in the final alignment:
+  RMSD of Modeled UniProt Q8K1T0.pdb with 1ekbB.pdb, chain B: 0.425
+  Overall RMSD: 0.425
+  Sequence lengths: 232 235
+  SDM (cutoff 5.0): 8.480
+  Q-score: 0.960
+  
+2a)
+  1z8gA
+
+2b)
+  As some others have mentioned, the option to "Generate Structural Alignment" was disabled when following the steps outlined in the homework (screenshot attached). Because of this I wasn't able to finish this question, or the following.
+
+3a) 
+  Most of the code is located in clojure/transformer.clj (with instructions on how to bootstrap an environment located at the top). Of the functions present in there, rotatePoint is probably the most worthy of additional explanation:
+  
+  rotatePoint: This function performs a rotation in 3D space using quaternions. It takes an angle (radians), two points that define an axis and a point to rotate, and returns that point, rotated by the provided angle around the axis defined between axis1 and axis2. It does this by translating the point to the origin (defined as the location of axis1) and then builds a quaternion Q of [cos(angle / 2), (normalize axis) * sin(angle / 2)]. The rotation is applied via sandwiching Q * v * (conjugate Q), and then the rotated point is re-translated away from the origin.
+  
+  In addition, there are a few (3) Ruby scripts (ruby/*.rb) that handle PDB files. I elected to use JSON as an intermediate data format for the relevant PDB data (json/*.json), so the Ruby scripts allow for parsing PDB files and outputting them as JSON formatted files, which the Clojure code can handle. There is bidirectional transfer of information, so ruby/pdb_backbone_json_updater.rb takes a JSON of updated atomic coordinates (after a rotation) and updates a given PDB file with the new data (I'm lazy, and this was faster than writing a full-fledged PDB file generator).
+  
+3b)
+  Backbone only PDB file: pdb/2EZM_backbone.pdb
+
+  Below are listed the dihedral angles for the backbone of 2EZM, the backbone has 303 atoms and 300 dihedral angles are listed (N -> C ordered).
+
+  spatial-transformations=> (dihedralAngles data1)
+  (
+    136.84211077275046
+    179.72630309040488
+    65.40904238507912
+    -142.59693340872118
+    -179.69983092473905
+    78.73581788131841
+    18.68862609978941
+    179.2024851148329
+    -47.03490360700757
+    -20.612486807173404
+    -178.39821648873925
+    -70.07492790094472
+    -13.275847608627325
+    179.084074528308
+    -71.65862928368631
+    -27.596289322770158
+    -179.32241925076877
+    -126.68311730861909
+    19.301646386937154
+    178.62667642513776
+    -130.11475895352933
+    153.67997500964893
+    -179.17774412907076
+    -147.44581162906235
+    172.10984473140235
+    -178.4641570624335
+    56.190804047222585
+    35.70246134609413
+    179.61364751680878
+    -67.70755214933584
+    144.3974322819486
+    -179.2706753998568
+    -144.89377517178372
+    154.42689531970552
+    179.48662835975517
+    -134.1799924793567
+    134.39456871997038
+    178.64948041854652
+    -135.7912165335755
+    111.87279815807868
+    -178.0953054644612
+    70.04521514071712
+    -118.1507289428814
+    178.61800686148268
+    -111.58726566639166
+    4.2484377053572695
+    -177.82153878652332
+    -92.80130597362478
+    123.47125737734488
+    176.83503260784497
+    -94.20843196272125
+    128.38573967629767
+    -179.77781646193216
+    -128.25133669395527
+    130.64925857511204
+    -179.38873595259153
+    -157.32589740526964
+    157.1551234117089
+    178.58589717443306
+    -98.22227335494954
+    122.67849535196977
+    -178.91100149686818
+    -120.07478884252895
+    153.98810010304905
+    179.76406027617801
+    -84.87407969915463
+    141.5806713947087
+    178.9061794773597
+    -81.13343575780536
+    154.80018376872312
+    179.0124992855771
+    -60.04120705197999
+    -40.01332641062425
+    -177.13408606672155
+    -88.26842430765419
+    26.475597629739706
+    -179.6053334161489
+    73.79504870665086
+    155.96000560000823
+    -175.80935563532094
+    104.54512796878346
+    161.5638132391824
+    179.4741992035724
+    -116.59777075832116
+    145.90326959379252
+    179.95184592786384
+    -126.70503751773056
+    146.8518986408232
+    -178.73509061056214
+    -119.89353054137771
+    130.1231536253481
+    -179.05870322933765
+    -151.30402272860348
+    167.48703159991544
+    -179.43784175461883
+    -138.45939514589762
+    148.922234274875
+    -179.96050042252492
+    -142.8160873986103
+    140.32513751641238
+    -179.4022926822225
+    -81.45244639560163
+    116.50808799270258
+    179.1207923460268
+    -79.91947349364693
+    -2.9158044970703174
+    -178.494839084056
+    -59.59369530028811
+    -38.48159087756345
+    -178.56732237299053
+    -72.49865926493574
+    3.8435582367611256
+    -178.88596237641525
+    -135.92254571032362
+    -5.04741887090245
+    179.84213951241938
+    -114.06379512810966
+    133.37822530066137
+    178.85318273402117
+    -122.3048642306884
+    155.7939906320932
+    177.29096648407202
+    -102.09011175577459
+    117.86932071761309
+    -179.65410520043912
+    -111.65762942418625
+    98.27407907065593
+    177.7164341066645
+    48.604755580368725
+    39.74056505763411
+    178.0615714981873
+    115.0719333114408
+    -16.84078848702521
+    -176.86219187599238
+    -121.61615878889933
+    143.61444798128008
+    177.97507585345858
+    -79.59676061283359
+    129.99640768738146
+    -179.51677962151066
+    -125.48596990155926
+    161.5992462743564
+    -179.157418682441
+    -76.42486483326523
+    80.91944019837733
+    179.76162279210791
+    -165.74578818986723
+    139.26660567663515
+    -179.91287920140448
+    -64.32765389267075
+    144.34080251684546
+    178.79045767290262
+    174.410481278497
+    12.360208182300966
+    -179.75527224581452
+    58.48534544883732
+    59.712035528951134
+    -178.8529810250954
+    -60.02831933370881
+    -39.97517281311636
+    -178.36774414775002
+    -57.751805887452576
+    -21.416908827132954
+    179.01530124286322
+    -63.37552093852325
+    -31.418422744046246
+    -179.26830396164138
+    -117.57412083163838
+    18.334376033747173
+    179.4902990304055
+    -134.0053561474204
+    155.64570644327705
+    -177.94412862388464
+    -141.32218251754546
+    178.4781220243855
+    178.35588129507505
+    47.904549538714065
+    49.918827426010346
+    177.4338829710723
+    -75.32666867721008
+    132.20793755485232
+    -178.6001425092832
+    -149.21907228719672
+    162.55448600757697
+    -179.75992361514375
+    -85.71720849587557
+    127.5393365910433
+    -179.79045374625656
+    -119.7960994845172
+    129.95061199777746
+    178.7358067200308
+    66.26315820571803
+    -150.44466530545202
+    -178.9177401426384
+    -89.85530400211422
+    -39.29653736943769
+    -177.36252553609327
+    -133.57068293293204
+    9.07261554995672
+    -178.26175348235063
+    -99.15789598351087
+    140.05424832279002
+    178.83578100516937
+    -109.45129374227061
+    120.07220982685992
+    -179.1017121487502
+    -105.61775884730434
+    140.4797697224499
+    -179.92191935053503
+    -155.92013011906408
+    174.95255646352314
+    177.08003774192312
+    -118.09228305546719
+    132.5661384124082
+    -178.0895546962205
+    -132.68322196056394
+    148.25316055401322
+    -179.2181595197018
+    -73.49341090087937
+    133.318826930525
+    177.35021742110516
+    -91.55961585064031
+    173.16875522643417
+    179.9800050999806
+    -58.64800053544657
+    -22.407215687307144
+    -178.4233493553876
+    -83.78046534392179
+    10.085999122773256
+    -179.68148857495802
+    65.05025928251122
+    35.489467799967585
+    178.95050878073732
+    -120.11357320623227
+    141.33424569792996
+    179.74693472583127
+    -87.12590878620738
+    124.38618974504342
+    179.04750177025826
+    -125.73957490624798
+    161.56961309037618
+    -178.3776280936735
+    -72.1174965177719
+    130.11989154987657
+    179.29035657492378
+    -135.19992515477023
+    157.47633849627044
+    -179.5876317810776
+    -155.72422361173875
+    160.26314350852172
+    -179.11666760474634
+    -148.79728966252236
+    148.13782277117124
+    -179.5292317851646
+    -87.73592804422191
+    112.79947210947788
+    178.74343340953112
+    -67.59217727028975
+    -21.47259480032406
+    -177.91058510006332
+    -68.25062071000998
+    -13.664366230786362
+    -177.88248678295665
+    -62.86733271908133
+    -39.87835145377598
+    -176.1152738526149
+    -138.7345930949976
+    -9.906356564773807
+    179.3412821101148
+    -84.70374977390468
+    110.17574731380996
+    -179.78654098866687
+    -118.75818083059276
+    168.62577297948292
+    178.43611652392656
+    -111.38369541580735
+    111.03296424223794
+    179.2022028930421
+    -113.46839005069587
+    107.02924522910385
+    178.6349695359927
+    65.66988609714316
+    33.2090618480324
+    178.86956666999754
+    84.60759190168014
+    1.1671359907310548
+    179.62452214526039
+    -118.70360247896954
+    137.3626550166839
+    -179.23998077795565
+    -82.25704382744708
+    138.64573525404157
+    179.02499770569676
+    -149.34260142178
+    130.31577299520157
+    179.3427795081775
+    -69.98029767210105
+    139.81888074681228
+    179.34637014379246
+    -145.86929505010875
+  )
+  
+3c)
+  Post-rotation PDB file: pdb/2EZM_backbone_1496_1497_20_degree_rotation.pdb
+
+  The structure doesn't change much as a result of applying a +20 degree rotation to the atoms after id: 1496 (with 1496, 1497 forming the axis for rotation and thus not moving). The only atom that moves is the C-terminus carboxyl group C (id: 1498).
+  
+  spatial-transformations=> (rmsd (map pointFromHash data1) (map pointFromHash data2))
+  0.028815991876866915
+  
+3d)
+  Post-rotation PDB file:                        pdb/2EZM_backbone_561_562_20_degree_rotation.pdb
+  Screenshot of the three variations in Chimera: other/2EZM and Two Rotated Forms in Chimera
+
+  spatial-transformations=> (rmsd (map pointFromHash data1) (map pointFromHash data3))
+  5.1608091430603995
+  
+3e)
+  spatial-transformations=> (energy data1)
+  255.9654262508557
+  spatial-transformations=> (energy data2)
+  255.9654262508557
+  spatial-transformations=> (energy data3)
+  2765.415002115562
+  
+  spatial-transformations=> (energyOver data1 20)
+  ()
+  spatial-transformations=> (energyOver data2 20)
+  ()
+  spatial-transformations=> (energyOver data3 20)
+  (
+    {:atom1 200, :atom2 625,  :atomicDistance 2.1225797868895975, :atomicEnergy 22.195858712659565} 
+    {:atom1 215, :atom2 624,  :atomicDistance 2.120947934742858,  :atomicEnergy 22.230026730670243} 
+    {:atom1 215, :atom2 625,  :atomicDistance 1.008028682280646,  :atomicEnergy 98.41339651261262} 
+    {:atom1 215, :atom2 626,  :atomicDistance 2.0706269250771165, :atomicEnergy 23.323637666072752} 
+    {:atom1 216, :atom2 624,  :atomicDistance 1.5255330841169994, :atomicEnergy 42.969147635668484} 
+    {:atom1 216, :atom2 625,  :atomicDistance 1.7610583055383302, :atomicEnergy 32.24426859252593} 
+    {:atom1 217, :atom2 624,  :atomicDistance 1.8853526778180785, :atomicEnergy 28.132918996635976} 
+    {:atom1 596, :atom2 750,  :atomicDistance 1.2768505183727201, :atomicEnergy 61.33662643272243} 
+    {:atom1 596, :atom2 751,  :atomicDistance 2.0870400429063927, :atomicEnergy 22.95823180511814} 
+    {:atom1 610, :atom2 815,  :atomicDistance 1.5872000660003052, :atomicEnergy 39.69507750648308} 
+    {:atom1 654, :atom2 879,  :atomicDistance 2.2120440734079834, :atomicEnergy 20.436778998832626} 
+    {:atom1 654, :atom2 891,  :atomicDistance 1.3587573751836448, :atomicEnergy 54.1646786875306} 
+    {:atom1 654, :atom2 892,  :atomicDistance 1.4640695641120103, :atomicEnergy 46.65267764383039} 
+    {:atom1 655, :atom2 855,  :atomicDistance 1.9601927473023093, :atomicEnergy 26.0257014808416} 
+    {:atom1 655, :atom2 879,  :atomicDistance 2.10373478141639,   :atomicEnergy 22.59529550351709} 
+    {:atom1 655, :atom2 891,  :atomicDistance 2.104585999621323,  :atomicEnergy 22.577021470241316} 
+    {:atom1 656, :atom2 854,  :atomicDistance 1.8324453762581014, :atomicEnergy 29.780907312103555} 
+    {:atom1 656, :atom2 855,  :atomicDistance 0.9962499651508575, :atomicEnergy 100.75424699190506} 
+    {:atom1 656, :atom2 877,  :atomicDistance 1.9734930225240233, :atomicEnergy 25.676085282423497} 
+    {:atom1 673, :atom2 1130, :atomicDistance 2.159161448616542,  :atomicEnergy 21.450121931595227} 
+    {:atom1 695, :atom2 997,  :atomicDistance 1.7249390848223771, :atomicEnergy 33.608758833325005} 
+    {:atom1 696, :atom2 1246, :atomicDistance 2.2230684762643236, :atomicEnergy 20.234585825548955} 
+    {:atom1 697, :atom2 995,  :atomicDistance 2.0624162010250537, :atomicEnergy 23.509715677553565} 
+    {:atom1 719, :atom2 1359, :atomicDistance 2.0659951071897837, :atomicEnergy 23.42833485591079} 
+    {:atom1 719, :atom2 1360, :atomicDistance 1.534845458764886,  :atomicEnergy 42.44931562438177} 
+    {:atom1 719, :atom2 1368, :atomicDistance 0.8811376268131854, :atomicEnergy 128.79900433306142} 
+    {:atom1 720, :atom2 1360, :atomicDistance 2.2292259799787635, :atomicEnergy 20.12295742826719} 
+    {:atom1 720, :atom2 1368, :atomicDistance 1.2066581653507797, :atomicEnergy 68.68018998618442} 
+    {:atom1 720, :atom2 1369, :atomicDistance 1.202302939480834,  :atomicEnergy 69.17866585753433} 
+    {:atom1 720, :atom2 1370, :atomicDistance 1.3109948066974257, :atomicEnergy 58.183260849519264} 
+    {:atom1 721, :atom2 1370, :atomicDistance 1.520868575829803,  :atomicEnergy 43.233124823492844} 
+    {:atom1 721, :atom2 1382, :atomicDistance 2.2175976443846306, :atomicEnergy 20.334546759779027} 
+    {:atom1 736, :atom2 1453, :atomicDistance 1.2900316149165076, :atomicEnergy 60.08959716527798} 
+    {:atom1 736, :atom2 1454, :atomicDistance 1.0891711146934915, :atomicEnergy 84.29615580020125} 
+    {:atom1 736, :atom2 1455, :atomicDistance 2.1319309892743674, :atomicEnergy 22.00157215608345} 
+    {:atom1 737, :atom2 1453, :atomicDistance 2.0859650005692636, :atomicEnergy 22.98190183898991} 
+    {:atom1 737, :atom2 1454, :atomicDistance 1.692663687570607,  :atomicEnergy 34.902669517840046} 
+    {:atom1 737, :atom2 1455, :atomicDistance 1.5488146866320263, :atomicEnergy 41.68704236323011} 
+    {:atom1 738, :atom2 1455, :atomicDistance 1.536995929832942,  :atomicEnergy 42.330613730100985}
+  )
+
+4a)
+  spatial-transformations=> (def rmsdPointsA [
+    [ 0.9003 -0.3258 -0.2888]
+    [-0.5377  0.2196 -0.8140] 
+    [ 0.2137  0.8614 -0.4608] 
+    [-0.0280 -0.0740 -0.9969] 
+    [ 0.7826  0.2782  0.5569] 
+    [ 0.5242 -0.7065  0.4755] 
+    [-0.0871  0.9154 -0.3929] 
+    [-0.9630  0.2336 -0.1344] 
+    [ 0.6428 -0.6475  0.4094] 
+    [-0.1106  0.7801 -0.6158]
+  ])
+  spatial-transformations=> (def rmsdPointsB [
+    [-0.8842  0.4649  0.0448]
+    [-0.2943 -0.0193 -0.9555]
+    [ 0.6263 -0.7336  0.2636]
+    [-0.9803  0.1798 -0.0821]
+    [-0.7222 -0.6759  0.1467]
+    [-0.5945 -0.7013  0.3934]
+    [-0.6026  0.4536 -0.6566]
+    [ 0.2076 -0.9660 -0.1540]
+    [-0.4556  0.2610  0.8511]
+    [-0.6024 -0.3751 -0.7046]
+  ])
+  spatial-transformations=> (rmsd rmsdPointsA rmsdPointsB)
+  1.4448236196851156
+  
+  spatial-transformations=> (rmsd rmsdPointsA (map #(translate % (vectorFromPoints (centerPoint rmsdPointsB) (centerPoint rmsdPointsA))) rmsdPointsB))
+  1.2714885367945714
