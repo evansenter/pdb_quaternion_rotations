@@ -10,7 +10,7 @@ Responses to Homework 2, CS697
   
 1c)
   Screenshot of structures in Chimera located at: other/1ekbB to Q8K1T0 Alignment in Chimera.png
-  Sequence alignment AFasta locate at:            fasta/1ekbB to Q8K1T0 Alignment.afasta
+  Sequence alignment AFasta located at:           fasta/1ekbB to Q8K1T0 Alignment.afasta
   
 1d)
   Evaluating superpositions across all 231 fully populated columns in the final alignment:
@@ -24,7 +24,19 @@ Responses to Homework 2, CS697
   1z8gA
 
 2b)
-  As some others have mentioned, the option to "Generate Structural Alignment" was disabled when following the steps outlined in the homework (screenshot attached). Because of this I wasn't able to finish this question, or the following.
+  PDB file generated: spdbv/Q8K1T0 to 1z8gA.pdb
+  
+2c)
+  Screenshot of structures in Chimera located at: other/Modeled Q8K1T0 to 1z8gA Alignment in Chimera.png
+  Sequence alignment AFasta located at:           fasta/Modeled Q8K1T0 to 1z8gA Alignment.afasta
+  
+2d)
+  Evaluating superpositions across all 340 fully populated columns in the final alignment:
+  RMSD of 1Z8G.pdb, Modeled Q8K1T0 to 1z8gA Alignment.pdb: 0.401
+  Overall RMSD: 0.401
+  Sequence lengths: 366 351
+  SDM (cutoff 5.0): 8.072
+  Q-score: 0.884
 
 3a) 
   Most of the code is located in clojure/transformer.clj (with instructions on how to bootstrap an environment located at the top). Of the functions present in there, rotatePoint is probably the most worthy of additional explanation:
